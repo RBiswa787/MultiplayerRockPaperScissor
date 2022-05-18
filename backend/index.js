@@ -1,3 +1,4 @@
+const e = require('express');
 
 const app = require('express')();
 const http = require('http').Server(app);
@@ -25,6 +26,13 @@ io.on('connection', socket => {
     console.log("reset request!");
     console.log(data);
     socket.to(data).emit("load",1);
+  });
+  socket.on("leave",data=>{
+    socket.to(data).emit("left","Opponent Left Room!");
+    games = removeRoom(data,games);
+    console.log("after del left");
+    console.log(games);
+    socket.leave(data);
   })
 });
  
@@ -75,14 +83,19 @@ function handleGame(code, name, choice){
       if(games[code]["rounds"]==games[code]["round"]){
         if(games[code]["player1wins"]>games[code]["player2wins"]){
           io.to(code).emit("result",games[code]["player1"]);
-          delete games.code;
+          games = removeRoom(code,games);
+          console.log("after del");
+          console.log(games);
         }
         else{
           io.to(code).emit("result",games[code]["player2"]);
-          delete games.code;
+          games = removeRoom(code,games);
+          console.log("after  left");
+           console.log(games);
         }
       }
-      games[code]["played"] = 0;
+      else{
+      games[code]["played"] = 0;}
     }
     else{
       if(choice==0){
@@ -99,15 +112,33 @@ function handleGame(code, name, choice){
       io.to(code).emit("update",games[code]);
       if(games[code]["rounds"]==games[code]["round"]){
         if(games[code]["player1wins"]>games[code]["player2wins"]){
-          io.to(code).emit("result",games[code]["player1"]);
+          let winner =games[code]["player1"];
+          games = removeRoom(code,games);
+          console.log("after del");
+          console.log(games);
+          io.to(code).emit("result",winner); 
         }
         else{
-          io.to(code).emit("result",games[code]["player2"]);
+          let winner =games[code]["player2"];
+          games = removeRoom(code,games);
+          console.log("after del");
+          console.log(games);
+          io.to(code).emit("result",winner);
         }
       }
-      games[code]["played"] = 0;
+      else{
+      games[code]["played"] = 0;}
     }
   }
+}
+function removeRoom(code,games){
+  newgames = {};
+  Object.keys(games).forEach(key => {
+    if(key!=code){
+      newgames[key] = games[key];
+    }
+  });
+  return newgames;
 }
 function update(code){
   console.log("updating");

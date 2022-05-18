@@ -25,7 +25,9 @@ export default class Game extends Component {
       round: 0,
       player1wins: 0,
       player2wins: 0,
-      toggle: false
+      toggle: false,
+      col1 : "pink",
+      col2 : "pink"
     }
   }
   componentDidMount(){
@@ -47,6 +49,21 @@ export default class Game extends Component {
     });
     socket.on("update",data => {
       console.log("Recieved update!");
+      if(data["player1wins"]>this.state.player1wins && this.state.me === this.state.player1){
+        this.Col2Green();
+      }
+      else if(data["player1wins"]>this.state.player1wins && this.state.me === this.state.player2){
+        this.Col1Green();
+      }
+      else if(data["player2wins"]>this.state.player2wins && this.state.me === this.state.player2){
+        this.Col2Green();
+      }
+      else if(data["player2wins"]>this.state.player2wins && this.state.me === this.state.player1){
+        this.Col1Green();
+      }
+      else{
+        this.ColOrange();
+      }
       this.state.toggle = !this.state.toggle;
       console.log(data);
       this.setState({
@@ -82,17 +99,62 @@ export default class Game extends Component {
       this.state.toggle = !this.state.toggle;
       this.LoadWait();
       this.LoadWaitURI();
+      this.ColPink();
     });
     socket.on("result",data => {
       alert(data + " Wins!");
       this.props.navigation.navigate('Open');
     });
+    socket.on("left",data=>{
+      alert(data);
+      this.props.navigation.navigate('Open');
+    })
+  }
+  componentWillUnmount(){
+    if(this.state.round!=5){
+    socket.emit("leave",this.state.code);
+    }
   }
   reset=()=>{
+    this.ColPink();
     this.LoadWait();
     this.LoadWaitURI();
     this.state.toggle = !this.state.toggle;
     socket.emit("reset",this.state.code);
+  }
+  Col1Green=()=>{
+ 
+    this.setState({
+ 
+      col1 : "lightgreen"
+ 
+    })
+  }
+  ColPink=()=>{
+ 
+    this.setState({
+ 
+      col1 : "pink",
+      col2 : "pink"
+ 
+    })
+  }
+  Col2Green=()=>{
+ 
+    this.setState({
+ 
+      col2 : "lightgreen"
+ 
+    })
+  }
+  ColOrange=()=>{
+ 
+    this.setState({
+ 
+      col1 : "orange",
+      col2 : "orange"
+ 
+    })
   }
   LoadSci=()=>{
  
@@ -235,14 +297,28 @@ export default class Game extends Component {
        </View>
     </View>
      <View style={styles.gamespace}>
-     <View style={styles.p1}>
+     <View style={{display: "flex",
+    justifyContent: "center",
+    width: "95%",
+    height: "48.5%",
+    borderWidth: 4,
+    borderColor: this.state.col1,
+    marginTop: "2%",
+    borderRadius: 10,}}>
        <Image
         style={styles.pap2}
         source={{ uri: this.state.uri }}
       />
     
      </View>
-     <View style={styles.p1}>
+     <View style={{display: "flex",
+    justifyContent: "center",
+    width: "95%",
+    height: "48.5%",
+    borderWidth: 4,
+    borderColor: this.state.col2,
+    marginTop: "2%",
+    borderRadius: 10,}}>
        <Image
         style={styles.pap}
         source={{ uri: this.state.url }}
@@ -320,16 +396,6 @@ const styles = StyleSheet.create({
     marginTop: "5%"
     
   },
-  p1: {
-    display: "flex",
-    justifyContent: "center",
-    width: "95%",
-    height: "48.5%",
-    borderWidth: 4,
-    borderColor: "pink",
-    marginTop: "2%",
-    borderRadius: 10,
-  },
   pap2:{
     height: "90%",
     aspectRatio: 0.50,
@@ -395,5 +461,6 @@ const styles = StyleSheet.create({
     backgroundColor: "pink",
     marginTop: "-7%",
     elevation: 5
-  }
+  },
+  
 });
