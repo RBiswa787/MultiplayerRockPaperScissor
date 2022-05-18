@@ -196,6 +196,6 @@ function initialiseGame(code, name){
 //app.get('/', (req, res) => res.sendFile('index.html'));
 
 // Start the express server
-http.listen(process.env.PORT || 5000, function(){
+http.listen(process.env.PORT, function(){
   console.log('listening on *:5000');
 });
