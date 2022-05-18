@@ -234,53 +234,10 @@ export default class Game extends Component {
     this.LoadSci();
     socket.emit("play", {"code":this.state.code,"me":this.state.me,"choice": 2});
   }
-  /*
-  const [hasConnection, setConnection] = useState(false);
-  const [time, setTime] = useState(null);
-
-  useEffect(function didMount() {
-    const socket = io(socketEndpoint, {
-      transports: ["websocket"],
-    });
-
-    socket.io.on("open", () => setConnection(true));
-    socket.io.on("close", () => setConnection(false));
-
-    socket.on("time-msg", (data) => {
-      setTime(new Date(data.time).toString());
-    });
-
-    return function didUnmount() {
-      socket.disconnect();
-      socket.removeAllListeners();
-    };
-  }, []);
-  */
+  
  render(){
   return (
-    /*
-    <View style={styles.container}>
-      {!hasConnection && (
-        <>
-          <Text style={styles.paragraph}>
-            Connecting to {socketEndpoint}...
-          </Text>
-          <Text style={styles.footnote}>
-            Make sure the backend is started and reachable
-          </Text>
-        </>
-      )}
-
-      {hasConnection && (
-        <>
-          <Text style={[styles.paragraph, { fontWeight: "bold" }]}>
-            Server time
-          </Text>
-          <Text style={styles.paragraph}>{time}</Text>
-        </>
-      )}
-    </View>
-    */
+    
    <View style={styles.container}>
      <View style = {styles.score}>
        <View style = {styles.up}>

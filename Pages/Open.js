@@ -3,7 +3,6 @@ import { StyleSheet, Text, View,Image, TouchableOpacity,TextInput } from "react-
 import { Component } from "react/cjs/react.production.min";
 import { socket } from "./Socket";
 
-// Replace this URL with your own socket-io host, or start the backend locally
 let socketId= "";
 socket.on("connect", () => {
     socketId = socket.id;
@@ -58,29 +57,7 @@ export default class Open extends Component {
     
  render(){
   return (
-    /*
-    <View style={styles.container}>
-      {!hasConnection && (
-        <>
-          <Text style={styles.paragraph}>
-            Connecting to {socketEndpoint}...
-          </Text>
-          <Text style={styles.footnote}>
-            Make sure the backend is started and reachable
-          </Text>
-        </>
-      )}
-
-      {hasConnection && (
-        <>
-          <Text style={[styles.paragraph, { fontWeight: "bold" }]}>
-            Server time
-          </Text>
-          <Text style={styles.paragraph}>{time}</Text>
-        </>
-      )}
-    </View>
-    */
+  
    <View style={styles.container}>
        <View style={styles.name}>
        <Image
