@@ -5,9 +5,9 @@
 <div style="display: flex; justify-content: flex-start">
 <img src="https://github.com/RBiswa787/MultiplayerRockPaperScissor/blob/master/assets/img1.png" alt="not available" style="height: 27%; width:32%;margin-right:2%"/>
 
-<img src="https://github.com/RBiswa787/MultiplayerRockPaperScissor/blob/master/assets/img3.png" alt="not available" style="height: 27%; width:32%;"/>
-
 <img src="https://github.com/RBiswa787/MultiplayerRockPaperScissor/blob/master/assets/img2.png" alt="not available" style="height: 27%; width:32%;"/>
+
+<img src="https://github.com/RBiswa787/MultiplayerRockPaperScissor/blob/master/assets/img3.png" alt="not available" style="height: 27%; width:32%;"/>
 
 <img src="https://github.com/RBiswa787/MultiplayerRockPaperScissor/blob/master/assets/img4.png" alt="not available" style="height: 27%; width:32%;"/>
 
